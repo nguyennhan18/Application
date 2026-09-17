@@ -1,0 +1,82 @@
+/* ==========================================================================
+   VIEW TRANSITION ANIMATIONS & KEYFRAMES
+   ========================================================================== */
+
+/* Seamless 3D / Slide View Switch Animations */
+.view-panel {
+  display: none;
+  opacity: 0;
+  transform: translateY(20px) scale(0.98);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.view-panel.active-view {
+  display: block;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: panelEntrance 500ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes panelEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Digital Seal Stamp Spin Animation */
+@keyframes sealSpinIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-45deg);
+  }
+  70% {
+    transform: scale(1.1) rotate(5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.animate-seal {
+  animation: sealSpinIn 600ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Toast Slide Entrance */
+@keyframes toastIn {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.toast-animate {
+  animation: toastIn 350ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Pulse Ring Animation */
+@keyframes ringPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+.pulse-ring {
+  animation: ringPulse 2.5s ease-in-out infinite;
+}
