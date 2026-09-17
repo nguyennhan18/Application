@@ -156,9 +156,9 @@
               <textarea class="w-full p-3 bg-slate-900/60 border border-white/10 rounded-xl text-xs text-white outline-none focus:border-indigo-500 transition-colors" id="uc9-comment" rows="3" placeholder="Nhập nhận xét học thuật..."></textarea>
             </div>
 
-            <!-- Action Button -->
-            <div class="pt-2">
-              <button class="btn-action w-full" id="btn-submit-uc9" onclick="submitUc9Assessment()">
+            <!-- Action Buttons -->
+            <div class="pt-2 flex gap-3">
+              <button class="btn-action flex-1" id="btn-submit-uc9" onclick="submitUc9Assessment()">
                 <span class="material-symbols-outlined text-[20px]">check_circle</span> Xác nhận &amp; Hoàn tất chấm điểm (C# .NET API)
               </button>
             </div>
@@ -214,29 +214,29 @@
               </div>
             </div>
 
-            <!-- Star Rating Widgets (Attitude) -->
+            <!-- Interactive Star Rating Widgets (Attitude) -->
             <div class="space-y-4">
               <h4 class="text-sm font-bold text-slate-300 uppercase tracking-wider">1. Thái độ làm việc (5 Sao)</h4>
               
               <div class="p-3 bg-slate-900/60 rounded-xl flex items-center justify-between">
                 <span class="text-xs font-bold text-white">Kỷ luật &amp; NDA</span>
-                <div class="star-widget">
-                  <span class="star-icon filled material-symbols-outlined">star</span>
-                  <span class="star-icon filled material-symbols-outlined">star</span>
-                  <span class="star-icon filled material-symbols-outlined">star</span>
-                  <span class="star-icon filled material-symbols-outlined">star</span>
-                  <span class="star-icon filled material-symbols-outlined">star</span>
+                <div class="star-widget" id="star-group-1">
+                  <span class="star-icon filled material-symbols-outlined" onclick="setStarRating(1, 1)">star</span>
+                  <span class="star-icon filled material-symbols-outlined" onclick="setStarRating(1, 2)">star</span>
+                  <span class="star-icon filled material-symbols-outlined" onclick="setStarRating(1, 3)">star</span>
+                  <span class="star-icon filled material-symbols-outlined" onclick="setStarRating(1, 4)">star</span>
+                  <span class="star-icon filled material-symbols-outlined" onclick="setStarRating(1, 5)">star</span>
                 </div>
               </div>
 
               <div class="p-3 bg-slate-900/60 rounded-xl flex items-center justify-between">
                 <span class="text-xs font-bold text-white">Tinh thần cầu thị</span>
-                <div class="star-widget">
-                  <span class="star-icon filled material-symbols-outlined">star</span>
-                  <span class="star-icon filled material-symbols-outlined">star</span>
-                  <span class="star-icon filled material-symbols-outlined">star</span>
-                  <span class="star-icon filled material-symbols-outlined">star</span>
-                  <span class="star-icon filled material-symbols-outlined">star</span>
+                <div class="star-widget" id="star-group-2">
+                  <span class="star-icon filled material-symbols-outlined" onclick="setStarRating(2, 1)">star</span>
+                  <span class="star-icon filled material-symbols-outlined" onclick="setStarRating(2, 2)">star</span>
+                  <span class="star-icon filled material-symbols-outlined" onclick="setStarRating(2, 3)">star</span>
+                  <span class="star-icon filled material-symbols-outlined" onclick="setStarRating(2, 4)">star</span>
+                  <span class="star-icon filled material-symbols-outlined" onclick="setStarRating(2, 5)">star</span>
                 </div>
               </div>
             </div>
@@ -345,6 +345,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Scripts -->
+  <script src="js/main.js"></script>
   <script src="js/api.js"></script>
   <script src="js/uc9-view.js"></script>
   <script src="js/uc10-view.js"></script>
@@ -366,6 +367,20 @@
         panelUc9.className = 'view-panel';
         panelUc10.className = 'view-panel active-view';
       }
+    }
+
+    function setStarRating(groupNum, rating) {
+      const group = document.getElementById(`star-group-${groupNum}`);
+      if (!group) return;
+      const stars = group.querySelectorAll('.star-icon');
+      stars.forEach((star, index) => {
+        if (index < rating) {
+          star.classList.add('filled');
+        } else {
+          star.classList.remove('filled');
+        }
+      });
+      showToast('Đã đánh giá thái độ', `Đã chọn ${rating}/5 sao cho tiêu chí này.`, 'info');
     }
 
     function showToastNotification(title, msg, type = 'success') {
