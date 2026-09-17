@@ -19,6 +19,14 @@ Icon?
 *.userosscache
 *.sln.docstates
 
+# .NET Build artifacts
+bin/
+obj/
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
 # Node & Build artifacts (if any)
 node_modules/
 npm-debug.log*
