@@ -3,10 +3,17 @@ namespace CodeBackend.Models
     public class Uc9AssessmentRequest
     {
         public int StudentId { get; set; }
-        public double Criteria1Score { get; set; } // Kỷ luật & Báo cáo (20%)
-        public double Criteria2Score { get; set; } // Khối lượng Chuyên môn (50%)
-        public double Criteria3Score { get; set; } // Kết quả & Báo cáo (30%)
+        public double ReportScore { get; set; } = 9.0; // Báo cáo (30%)
+        public double TechScore { get; set; } = 8.8;   // Kỹ thuật (40%)
+        public double OralScore { get; set; } = 9.0;   // Vấn đáp (30%)
+
+        // Legacy compatibility properties
+        public double Criteria1Score { get => ReportScore; set => ReportScore = value; }
+        public double Criteria2Score { get => TechScore; set => TechScore = value; }
+        public double Criteria3Score { get => OralScore; set => OralScore = value; }
+
         public string TeacherComment { get; set; } = string.Empty;
+        public List<string> Tags { get; set; } = new List<string>();
         public bool IsPublic { get; set; } = true;
         public bool SendToDepartment { get; set; } = true;
     }

@@ -48,9 +48,9 @@ namespace CodeBackend.Services
                 };
             }
 
-            if (request.Criteria1Score < 0 || request.Criteria1Score > 10 ||
-                request.Criteria2Score < 0 || request.Criteria2Score > 10 ||
-                request.Criteria3Score < 0 || request.Criteria3Score > 10)
+            if (request.ReportScore < 0 || request.ReportScore > 10 ||
+                request.TechScore < 0 || request.TechScore > 10 ||
+                request.OralScore < 0 || request.OralScore > 10)
             {
                 return new Uc9AssessmentResponse
                 {
@@ -59,21 +59,24 @@ namespace CodeBackend.Services
                 };
             }
 
-            // Main Flow: Score Calculation Formula: Total = (C1 * 0.2) + (C2 * 0.5) + (C3 * 0.3)
-            double finalScore = Math.Round((request.Criteria1Score * 0.2) + (request.Criteria2Score * 0.5) + (request.Criteria3Score * 0.3), 1);
+            // Main Flow: Weighted Score Formula = (Báo cáo * 0.3) + (Kỹ thuật * 0.4) + (Vấn đáp * 0.3)
+            double finalScore = Math.Round((request.ReportScore * 0.3) + (request.TechScore * 0.4) + (request.OralScore * 0.3), 2);
             
-            string rank = finalScore >= 9.0 ? "Xuất sắc"
-                        : finalScore >= 8.0 ? "Giỏi"
-                        : finalScore >= 7.0 ? "Khá"
-                        : finalScore >= 5.0 ? "Trung bình" : "Không đạt";
+            string rank = finalScore >= 9.0 ? "A+ - Xuất sắc"
+                        : finalScore >= 8.0 ? "A - Giỏi"
+                        : finalScore >= 7.0 ? "B - Khá"
+                        : finalScore >= 5.0 ? "C - Trung bình" : "F - Không đạt";
 
             // Update State (Supports Exception A3 - Edit assessment)
-            student.Uc9Status = "Đã nhận xét";
+            student.Uc9Status = "Đã công bố điểm";
+            student.RubricReportScore = request.ReportScore;
+            student.RubricTechScore = request.TechScore;
+            student.RubricOralScore = request.OralScore;
 
             return new Uc9AssessmentResponse
             {
                 Success = true,
-                Message = $"Lưu nhận xét và điểm số thành công cho SV {student.Name}.",
+                Message = $"Công bố điểm và nhận xét thành công cho SV {student.Name} (MSSV: {student.Mssv}). Kết quả: {finalScore}/10.0 ({rank})",
                 FinalScore = finalScore,
                 AcademicRank = rank,
                 StudentData = student,
